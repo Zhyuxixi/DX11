@@ -1,5 +1,29 @@
 #include <Windows.h>
 
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_DESTROY:
+		PostQuitMessage(69);
+		break;
+
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hWnd, &ps);
+
+		// All painting occurs here, between BeginPaint and EndPaint.
+
+		FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+
+		EndPaint(hWnd, &ps);
+	}
+	return 0;
+
+	}
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
 
 int CALLBACK WinMain(
 	HINSTANCE	hInstance,
@@ -7,12 +31,14 @@ int CALLBACK WinMain(
 	LPSTR		IpCmdLine,
 	int			nCmdShow)
 {
-	const wchar_t pClassName[] = L"DX11butts";
+
 	//register window class
+
+	const wchar_t pClassName[] = L"DX11butts";
 	WNDCLASSEX wc = {0};
 	wc.cbSize = sizeof(wc);
 	wc.style = CS_OWNDC;
-	wc.lpfnWndProc = DefWindowProc;
+	wc.lpfnWndProc = WindowProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = hInstance;
@@ -35,22 +61,31 @@ int CALLBACK WinMain(
 		//CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		200, 200, 640, 480,
 
-		NULL,       // Parent window    
-		NULL,       // Menu
+		nullptr,       // Parent window    
+		nullptr,       // Menu
 		hInstance,  // Instance handle
-		NULL        // Additional application data
+		nullptr        // Additional application data
 	);
 
-	if (hWnd == NULL)
+	if (hWnd == nullptr)
 	{
 		return 0;
 	}
 
+	// Show the window
+
 	ShowWindow(hWnd, SW_SHOW);
 
-	while (true)
-	{
+	// Run the message loop.
 
+	MSG msg = { };
+	BOOL gResult;
+	while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
 	}
-	return 0;
+
+	if (gResult == -1)	return -1;
+	else		return msg.wParam;
 }
