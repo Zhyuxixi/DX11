@@ -1,27 +1,24 @@
 #include <Windows.h>
+#include "WindowsMessageMap.h"
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	static WindowsMessageMap mm;
+	OutputDebugString(mm(uMsg, lParam, wParam).c_str());
+
 	switch (uMsg)
 	{
 	case WM_DESTROY:
 		PostQuitMessage(69);
 		break;
-
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint(hWnd, &ps);
-
-		// All painting occurs here, between BeginPaint and EndPaint.
-
-		FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
-
-		EndPaint(hWnd, &ps);
+	case WM_KEYDOWN:
+		if (wParam == 'F') SetWindowText(hWnd, "Respects");
+		break;
+	case WM_KEYUP:
+		if (wParam == 'F') SetWindowText(hWnd, "Dangerfield");
+		break;
 	}
-	return 0;
 
-	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
@@ -34,7 +31,8 @@ int CALLBACK WinMain(
 
 	//register window class
 
-	const wchar_t pClassName[] = L"DX11butts";
+	const auto pClassName = "DX11butts";
+	//const wchar_t pClassName[] = L"DX11butts";
 	WNDCLASSEX wc = {0};
 	wc.cbSize = sizeof(wc);
 	wc.style = CS_OWNDC;
@@ -54,7 +52,7 @@ int CALLBACK WinMain(
 	HWND hWnd = CreateWindowEx(
 		0,													// Optional window styles.
 		pClassName,											// Window class
-		L"Happy Hard Window",								// Window text
+		"Happy Hard Window",								// Window text
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,           // Window style
 
 		// Size and position
