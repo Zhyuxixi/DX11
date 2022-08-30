@@ -19,10 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\WindowsMessageMap.cpp" />
     <ClCompile Include="src\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ChiliWin.h" />
+    <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\WindowsMessageMap.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

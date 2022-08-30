@@ -21,9 +21,18 @@
     <ClCompile Include="src\WindowsMessageMap.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\Window.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WindowsMessageMap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ChiliWin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Window.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
